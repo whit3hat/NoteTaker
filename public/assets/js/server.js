@@ -18,9 +18,15 @@ app.use(express.json());
 //Basic route that sends the user first to the index page
 app.get('/', function(req, res){
     res.sendFile(path.join(__dirname, '../../../public/index.html'));
+});
+
+//Route to the notes page
+app.get('/notes', function(req, res){
+    res.sendFile(path.join(__dirname, '../../../public/notes.html'));
+});
 
 
-})
+
 
 
 //Start the server
