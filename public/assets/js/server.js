@@ -5,7 +5,7 @@ const path = require('path');
 
 //Setup Express App
 var app = express();
-var PORT = 3000;
+var PORT =process.env.PORT || 3000;
 
 
 //Setup the Express app to handle data parsing
@@ -17,7 +17,7 @@ app.use(express.json());
 
 //Basic route that sends the user first to the index page
 app.get('/', function(req, res){
-    res.sendFile(path.join(_dirname, 'index.html'));
+    res.sendFile(path.join(__dirname, '../../../public/index.html'));
 
 
 })
