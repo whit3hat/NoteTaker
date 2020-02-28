@@ -25,8 +25,11 @@ app.get('/notes', function(req, res){
     res.sendFile(path.join(__dirname, '../../../public/notes.html'));
 });
 
-
-
+//Pull info from json file into Notes Page
+fs.readFile('../../../db/db.json', 'utf8', (err, data) =>{
+    if (err) throw err;
+    console.log(data);
+});
 
 
 //Start the server
