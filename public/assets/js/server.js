@@ -23,12 +23,18 @@ app.get('/', function(req, res){
 //Route to the notes page
 app.get('/notes', function(req, res){
     res.sendFile(path.join(__dirname, '../../../public/notes.html'));
+    
+    //Reading JSON file
+    fs.readFile('../../../db/db.json', 'utf8', (err, data) =>{
+        if (err) throw err;
+        console.log('notes JSON' , data);
+    });
 });
 
-//Pull info from json file into Notes Page
+//Pull info from json file 
 fs.readFile('../../../db/db.json', 'utf8', (err, data) =>{
     if (err) throw err;
-    console.log(data);
+    console.log('JSON: ', data);
 });
 
 
