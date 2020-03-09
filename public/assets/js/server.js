@@ -5,12 +5,13 @@ const path = require('path');
 
 //Setup Express App
 var app = express();
-var PORT =process.env.PORT || 3000;
+var PORT = process.env.PORT || 3000;
 
 
 //Setup the Express app to handle data parsing
 app.use(express.urlencoded({ extended: true}));
 app.use(express.json());
+
 
 //Routes
 //=============================================
@@ -23,23 +24,28 @@ app.get('/', function(req, res){
 //Route to the notes page
 app.get('/notes', function(req, res){
     res.sendFile(path.join(__dirname, '../../../public/notes.html'));
-    
-    //Reading JSON file
-    fs.readFile('../../../db/db.json', 'utf8', (err, data) =>{
-        if (err) throw err;
-        console.log('notes JSON' , data);
-    });
 });
 
-//Pull info from json file 
-fs.readFile('../../../db/db.json', 'utf8', (err, data) =>{
-    if (err) throw err;
-    console.log('JSON: ', data);
-});
+//POST Note to db//
+
+//JSON to array
+try {
+    const notes = fs.readFileSync('../../../db/db.json', 'utf8') 
+        console.log(notes)
+        } catch (err) {
+        console.log(err);
+
+        app.post('/api/notes', function(req, res){
+            // return res.json(notes);
+           notes.push(req.body)
+        });
+
+
+    };
 
 
 //Start the server
 //==========================================
-app.listen(PORT, function(){
-    console.log("App listening on PORT" + PORT)
+app.listen(PORT, function() {
+    console.log("App listening on PORT " + PORT);
 });
