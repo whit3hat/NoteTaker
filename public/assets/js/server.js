@@ -37,7 +37,11 @@ try {
 
         app.post('/api/notes', function(req, res){
             // return res.json(notes);
-           notes.push(req.body)
+            newNote({
+                title: req.body,
+                text: req.body
+            })
+           newNote.push(db.json);
         });
 
 
