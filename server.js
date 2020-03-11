@@ -9,7 +9,7 @@ var app = express();
 var PORT = process.env.PORT || 3000;
 var router = require("express").Router()
 
-router.get('/notes', function(req, res){
+router.route('/notes', function(req, res){
     Store.getNotes().then(notes=>{
         console.log(notes);
         res.json(notes).catch(error =>{
@@ -19,7 +19,7 @@ router.get('/notes', function(req, res){
     })
 })
 
-
+app.use('/notes', router)
 //Setup the Express app to handle data parsing
 app.use(express.urlencoded({ extended: true}));
 app.use(express.json());
