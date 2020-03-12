@@ -2,7 +2,7 @@ const fs = require('fs');
 const util = require('util');
 
 var readFiles = util.promisify(fs.readFile);
-var writeFile = util.promisify(fs.writeFile);
+var writeFiles = util.promisify(fs.writeFile);
 
 class Store {
     constructor() {
@@ -15,7 +15,7 @@ class Store {
     write(note){
         return writeFiles("db/db.json", JSON.stringify(note));
     }
-
+//constructor for the getNotes function to pass to the route
     getNotes(){
         return this.read().then(notes => {
             let parsedNotes;
@@ -30,14 +30,14 @@ class Store {
             return parsedNotes;
         });
     }
-
+//constructor for the addNote function to pass to the route
     addNote(note) {
         const { title, text } = note;
 
         if (!title || !text) {
             throw new Error("Note 'title' and 'text' cannot be blank");
         }
-
+        console.log(note);
         // Increment 'this.lastId' and assign it to 'newNote.id'
         const newNote = { title, text, id: ++this.lastId };
 

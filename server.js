@@ -1,30 +1,20 @@
 //Dependencies
-const fs = require ('fs');
 const express = require ('express');
 const path = require('path');
-const Store = require('./db/store');
+const apiRoutes = require("./routes/apiRoutes");
 
 //Setup Express App
 var app = express();
 var PORT = process.env.PORT || 3000;
-const router = express.Router()
 
-router.route('/notes', function(req, res){
-    Store.getNotes().then(notes=>{
-        console.log('notes:',notes);
-        res.json(notes).catch(error =>{
-            console.log(error); 
-            res.status(500).json(error);
-        })
-    })
-})
 
-app.use('/notes', router)
 //Setup the Express app to handle data parsing
 app.use(express.urlencoded({ extended: true}));
 app.use(express.json());
 app.use(express.static('public'));
 
+// /middleware
+app.use('/api', apiRoutes)
 //Routes
 //=============================================
 
