@@ -1,27 +1,59 @@
 const fs = require('fs');
 const util = require('util');
 
-var readFiles = util.promisify(fs.readFileSync);
-
+var readFiles = util.promisify(fs.readFile);
 var writeFile = util.promisify(fs.writeFile);
 
 class Store {
-    read(){
-        return readFiles('./db.json', 'utf8')
-    };
-    write(note){
-        console.log(note)
+    constructor() {
+        this.lastId = 0;
     }
+    read() {
+        return readFiles("db/db.json", "utf8");
+    };
+
+    write(note){
+        return writeFiles("db/db.json", JSON.stringify(note));
+    }
+
     getNotes(){
         return this.read().then(notes => {
-            var parseNotes; try{
-                parseNotes = [].concat(json.parse(notes))
-            }catch(error){
-                console.log(error);
+            let parsedNotes;
 
+            //If notes isn't an array or can't be turned into one, send back a new empty array
+            try {
+                parsedNotes = [].concat(JSON.parse(notes));
+            } catch (err) {
+                parsedNotes = [];
             }
-        })
+
+            return parsedNotes;
+        });
+    }
+
+    addNote(note) {
+        const { title, text } = note;
+
+        if (!title || !text) {
+            throw new Error("Note 'title' and 'text' cannot be blank");
+        }
+
+        // Increment 'this.lastId' and assign it to 'newNote.id'
+        const newNote = { title, text, id: ++this.lastId };
+
+        //Get all notes, add the new note, write all the updated notes, return the newNote
+        return this.getNotes()
+            .then(notes => [...notes, newNote])
+            .then(updatedNotes => this.write(updatedNotes))
+            .then(() => newNote);
+    }
+
+    removeNote(id){
+        //get all notes, remove the note with the given id write the  filtered notes
+        return this.getNotes()
+            .then(notes => notes.filter(note => note.id !== parseInt(id)))
+            .then(filteredNotes => this.write(filteredNotes));
     }
 }
 
-module.exports = Store;
+module.exports = new Store();
