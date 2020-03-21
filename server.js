@@ -33,27 +33,6 @@ app.get('/api/notes', function(req, res){
     console.log(req.body);
 });
 
-//POST Note to db//
-
-//JSON to array
-// try {
-//     const notes = fs.readFileSync('/db/db.json', 'utf8') 
-//         console.log(notes)
-//         } catch (err) {
-//         console.log(err);
-
-//         app.post('/api/notes', function(req, res){
-//             // return res.json(notes);
-//             notes({
-//                 title: req.body,
-//                 text: req.body
-//             })
-//            newNote.push(db.json);
-//         });
-
-
-//     };
-
 
 //Start the server
 //==========================================
